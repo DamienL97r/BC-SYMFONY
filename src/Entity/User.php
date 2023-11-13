@@ -24,7 +24,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
     operations: [
         new GetCollection(),
         new Get(
-            normalizationContext: ['groups' => ['read:collection', 'read:order']]
+            normalizationContext: ['groups' => ['read:Usercollection', 'read:order']]
         ),
         new Post(processor: UserPasswordHasher::class),
         new Put(processor: UserPasswordHasher::class),
@@ -38,16 +38,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:Usercollection', 'read:user'])]
     private ?int $id = null;
 
     
-    #[Groups(['read:collection'])]
+    #[Groups(['read:Usercollection', 'read:user'])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:Usercollection'])]
     private array $roles = [];
 
     /**
@@ -58,28 +58,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
 
     private ?string $plainPassword = null;
 
-    #[Groups(['read:collection'])]
+    #[Groups(['read:Usercollection', 'read:user'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstname = null;
 
-    #[Groups(['read:collection'])]
+    #[Groups(['read:Usercollection', 'read:user'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
-    #[Groups(['read:collection'])]
+    #[Groups(['read:Usercollection', 'read:user'])]
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthdate = null;
 
-    #[Groups(['read:collection'])]
+    #[Groups(['read:Usercollection', 'read:user'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $gender = null;
 
-    #[Groups(['read:collection'])]
+    #[Groups(['read:Usercollection', 'read:user'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
 
 
-    #[Groups(['read:collection'])]
+    #[Groups(['read:Usercollection'])]
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Order::class)]
     private Collection $orders;
 

@@ -3,18 +3,24 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Repository\OrderRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-// #[ApiResource(
-//     operations: [
-//         new Get(name: 'get_orders_by_user', uriTemplate: '/orders/user/{userId}', controller: GetOrdersByUserController::class)
-//     ]
-// )]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(
+            normalizationContext: ['groups' => ['read:Ordercollection', 'read:user']]
+        ),
+        new Post(),
+    ]
+)]
 
-#[ApiResource()]
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
 class Order
@@ -22,29 +28,30 @@ class Order
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read:order'])]
+    #[Groups(['read:Ordercollection', 'read:order'])]
     private ?int $id = null;
 
-    #[Groups(['read:order'])]
+    #[Groups(['read:Ordercollection', 'read:order'])]
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $createdDate = null;
 
-    #[Groups(['read:order'])]
+    #[Groups(['read:Ordercollection', 'read:order'])]
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $depositDate = null;
 
-    #[Groups(['read:order'])]
+    #[Groups(['read:Ordercollection', 'read:order'])]
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $retrievalDate = null;
 
-    #[Groups(['read:order'])]
+    #[Groups(['read:Ordercollection', 'read:order'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $paymentType = null;
 
-    #[Groups(['read:order'])]
+    #[Groups(['read:Ordercollection', 'read:order'])]
     #[ORM\Column(nullable: true)]
     private ?float $totalPrice = null;
 
+    #[Groups(['read:Ordercollection', 'read:order'])]
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?User $userId = null;
 

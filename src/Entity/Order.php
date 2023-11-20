@@ -55,6 +55,18 @@ class Order
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?User $userId = null;
 
+    #[Groups(['read:Ordercollection', 'read:order'])]
+    #[ORM\Column(nullable: true)]
+    private ?bool $isAssigned = null;
+
+    #[Groups(['read:Ordercollection', 'read:order'])]
+    #[ORM\Column(nullable: true)]
+    private ?bool $isDone = null;
+
+    #[Groups(['read:Ordercollection', 'read:order'])]
+    #[ORM\Column(nullable: true)]
+    private ?array $selection = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -128,6 +140,42 @@ class Order
     public function setUserId(?User $userId): static
     {
         $this->userId = $userId;
+
+        return $this;
+    }
+
+    public function isIsAssigned(): ?bool
+    {
+        return $this->isAssigned;
+    }
+
+    public function setIsAssigned(?bool $isAssigned): static
+    {
+        $this->isAssigned = $isAssigned;
+
+        return $this;
+    }
+
+    public function isIsDone(): ?bool
+    {
+        return $this->isDone;
+    }
+
+    public function setIsDone(?bool $isDone): static
+    {
+        $this->isDone = $isDone;
+
+        return $this;
+    }
+
+    public function getSelection(): ?array
+    {
+        return $this->selection;
+    }
+
+    public function setSelection(?array $selection): static
+    {
+        $this->selection = $selection;
 
         return $this;
     }

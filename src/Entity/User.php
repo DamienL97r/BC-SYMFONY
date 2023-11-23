@@ -83,9 +83,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Order::class)]
     private Collection $orders;
 
+    #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Selection::class)]
+    private Collection $selections;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->selections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -308,6 +312,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
             // set the owning side to null (unless already changed)
             if ($order->getUserId() === $this) {
                 $order->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Selection>
+     */
+    public function getSelections(): Collection
+    {
+        return $this->selections;
+    }
+
+    public function addSelection(Selection $selection): static
+    {
+        if (!$this->selections->contains($selection)) {
+            $this->selections->add($selection);
+            $selection->setEmployee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSelection(Selection $selection): static
+    {
+        if ($this->selections->removeElement($selection)) {
+            // set the owning side to null (unless already changed)
+            if ($selection->getEmployee() === $this) {
+                $selection->setEmployee(null);
             }
         }
 

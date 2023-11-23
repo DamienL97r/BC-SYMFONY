@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\OrderRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,6 +21,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups' => ['read:Ordercollection', 'read:user']]
         ),
         new Post(),
+        new Put(),
+        new Patch(),
+        new Delete(),
     ]
 )]
 
@@ -57,15 +63,8 @@ class Order
 
     #[Groups(['read:Ordercollection', 'read:order'])]
     #[ORM\Column(nullable: true)]
-    private ?bool $isAssigned = null;
+    private ?array $selectionJson = null;
 
-    #[Groups(['read:Ordercollection', 'read:order'])]
-    #[ORM\Column(nullable: true)]
-    private ?bool $isDone = null;
-
-    #[Groups(['read:Ordercollection', 'read:order'])]
-    #[ORM\Column(nullable: true)]
-    private ?array $selection = null;
 
     public function getId(): ?int
     {
@@ -144,39 +143,17 @@ class Order
         return $this;
     }
 
-    public function isIsAssigned(): ?bool
+    public function getSelectionJson(): ?array
     {
-        return $this->isAssigned;
+        return $this->selectionJson;
     }
 
-    public function setIsAssigned(?bool $isAssigned): static
+    public function setSelectionJson(?array $selectionJson): static
     {
-        $this->isAssigned = $isAssigned;
+        $this->selectionJson = $selectionJson;
 
         return $this;
     }
 
-    public function isIsDone(): ?bool
-    {
-        return $this->isDone;
-    }
 
-    public function setIsDone(?bool $isDone): static
-    {
-        $this->isDone = $isDone;
-
-        return $this;
-    }
-
-    public function getSelection(): ?array
-    {
-        return $this->selection;
-    }
-
-    public function setSelection(?array $selection): static
-    {
-        $this->selection = $selection;
-
-        return $this;
-    }
 }

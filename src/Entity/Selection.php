@@ -21,6 +21,12 @@ class Selection
     #[ORM\ManyToOne(inversedBy: 'selections')]
     private ?Service $service = null;
 
+    #[ORM\ManyToOne(inversedBy: 'selections')]
+    private ?User $employee = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?array $jsonOrder = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +52,30 @@ class Selection
     public function setService(?Service $service): static
     {
         $this->service = $service;
+
+        return $this;
+    }
+
+    public function getEmployee(): ?User
+    {
+        return $this->employee;
+    }
+
+    public function setEmployee(?User $employee): static
+    {
+        $this->employee = $employee;
+
+        return $this;
+    }
+
+    public function getJsonOrder(): ?array
+    {
+        return $this->jsonOrder;
+    }
+
+    public function setJsonOrder(?array $jsonOrder): static
+    {
+        $this->jsonOrder = $jsonOrder;
 
         return $this;
     }

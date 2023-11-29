@@ -27,6 +27,9 @@ class Selection
     #[ORM\Column(nullable: true)]
     private ?array $jsonOrder = null;
 
+    #[ORM\OneToOne(inversedBy: 'selection', cascade: ['persist', 'remove'])]
+    private ?Order $OrderId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,18 @@ class Selection
     public function setJsonOrder(?array $jsonOrder): static
     {
         $this->jsonOrder = $jsonOrder;
+
+        return $this;
+    }
+
+    public function getOrderId(): ?Order
+    {
+        return $this->OrderId;
+    }
+
+    public function setOrderId(?Order $OrderId): static
+    {
+        $this->OrderId = $OrderId;
 
         return $this;
     }

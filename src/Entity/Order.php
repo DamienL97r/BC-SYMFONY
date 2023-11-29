@@ -65,6 +65,17 @@ class Order
     #[ORM\Column(nullable: true)]
     private ?array $selectionJson = null;
 
+    #[Groups(['read:Ordercollection', 'read:order'])]
+    #[ORM\Column(nullable: true)]
+    private ?bool $isAssigned = null;
+
+    #[Groups(['read:Ordercollection', 'read:order'])]
+    #[ORM\Column(nullable: true)]
+    private ?bool $isDone = null;
+
+    #[ORM\OneToOne(mappedBy: 'OrderId', cascade: ['persist', 'remove'])]
+    private ?Selection $selection = null;
+
 
     public function getId(): ?int
     {
@@ -151,6 +162,52 @@ class Order
     public function setSelectionJson(?array $selectionJson): static
     {
         $this->selectionJson = $selectionJson;
+
+        return $this;
+    }
+
+    public function isIsAssigned(): ?bool
+    {
+        return $this->isAssigned;
+    }
+
+    public function setIsAssigned(?bool $isAssigned): static
+    {
+        $this->isAssigned = $isAssigned;
+
+        return $this;
+    }
+
+    public function isIsDone(): ?bool
+    {
+        return $this->isDone;
+    }
+
+    public function setIsDone(?bool $isDone): static
+    {
+        $this->isDone = $isDone;
+
+        return $this;
+    }
+
+    public function getSelection(): ?Selection
+    {
+        return $this->selection;
+    }
+
+    public function setSelection(?Selection $selection): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($selection === null && $this->selection !== null) {
+            $this->selection->setOrderId(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($selection !== null && $selection->getOrderId() !== $this) {
+            $selection->setOrderId($this);
+        }
+
+        $this->selection = $selection;
 
         return $this;
     }

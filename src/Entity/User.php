@@ -83,6 +83,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Order::class)]
     private Collection $orders;
 
+    #[Groups(['read:Usercollection'])]
     #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Selection::class)]
     private Collection $selections;
 

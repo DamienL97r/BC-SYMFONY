@@ -3,16 +3,35 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\SelectionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(
+            normalizationContext: ['groups' => ['read:Usercollection', 'read:order']]
+        ),
+        new Post(),
+        new Put(),
+        new Patch(),
+        new Delete(),
+    ]
+)]
 #[ORM\Entity(repositoryClass: SelectionRepository::class)]
 class Selection
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read:Usercollection', 'read:user'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'selections')]
@@ -21,12 +40,15 @@ class Selection
     #[ORM\ManyToOne(inversedBy: 'selections')]
     private ?Service $service = null;
 
+    #[Groups(['read:Usercollection', 'read:user'])]
     #[ORM\ManyToOne(inversedBy: 'selections')]
     private ?User $employee = null;
 
+    #[Groups(['read:Usercollection', 'read:user'])]
     #[ORM\Column(nullable: true)]
     private ?array $jsonOrder = null;
 
+    
     #[ORM\OneToOne(inversedBy: 'selection', cascade: ['persist', 'remove'])]
     private ?Order $OrderId = null;
 

@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Montserrat;
+    box-sizing: border-box;
+    background-color: rgb(203, 221, 240);
+    color: rgb(30, 30, 30);
+}
+
+.dashboard {
+    display: flex;
+    
+}
+
+.dashboard-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/*NAVBAR START*/
+.dashboard-navbar {
+    background-color: #375DA5;
+    color: rgb(210, 210, 210);
+    width: 250px;
+    height: 100vh;
+}
+
+
+
+.nav-logo > a > img{
+    width: 100%;
+    height: auto;
+    margin-top: -70px;
+}
+
+.nav-list {
+    margin-top: -70px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+/*NAVBAR END*/
+
+
+/*TABLE ENTITY START*/
+
+.small-col {
+    width: 200px;
+}
+
+.small-col-content {
+    width: 200px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+/*TABLE ENTITY END*/

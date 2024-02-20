@@ -23,13 +23,35 @@ class AppFixtures extends Fixture
         $userAdmin = new User();
         $userAdmin ->setEmail('test@test.com')
         ->setRoles(['ROLE_ADMIN'])
-        ->setPassword('$2y$13$EsOwp.LhsUooZUyBn/w/8OJGSiAEhLC7LQfNBPY2MHERvSDE8GRpm') # test | admin
+        ->setPassword('$2y$13$EsOwp.LhsUooZUyBn/w/8OJGSiAEhLC7LQfNBPY2MHERvSDE8GRpm') #password: admin
         ->setFirstname('John')
         ->setLastname('Doe')
         ->setBirthdate($faker->dateTimeBetween('-5 years'))
         ->setGender('Homme')
         ->setAdresse($faker->address());
         $manager->persist($userAdmin);
+
+        $userSuperAdmin1 = new User();
+        $userSuperAdmin1 ->setEmail('bernard.pressing@gmail.com')
+        ->setRoles(['ROLE_SUPER_ADMIN'])
+        ->setPassword('$2y$13$KjwwT/iCsjAivTFrKAg0EeC8C5XupZTKUhm3XL/CjUeZI29qOJefa') #password: admin
+        ->setFirstname('Bernard')
+        ->setLastname('PATRON')
+        ->setBirthdate($faker->dateTimeBetween('-5 years'))
+        ->setGender('Homme')
+        ->setAdresse($faker->address());
+        $manager->persist($userSuperAdmin1);
+
+        $userSuperAdmin2 = new User();
+        $userSuperAdmin2 ->setEmail('laetitia.pressing@gmail.com')
+        ->setRoles(['ROLE_SUPER_ADMIN'])
+        ->setPassword('$2y$13$qKqQKziwr5FU2hTKs/pfGeQro1eF10iQVNW8tmk6HpLrxxkZqkVNS') #password: admin
+        ->setFirstname('Laetitia')
+        ->setLastname('PATRON')
+        ->setBirthdate($faker->dateTimeBetween('-5 years'))
+        ->setGender('Homme')
+        ->setAdresse($faker->address());
+        $manager->persist($userSuperAdmin2);
 
         for ($i = 0; $i < self::NB_USER; $i++) {
             $user = new User();
